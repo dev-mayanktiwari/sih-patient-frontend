@@ -1,15 +1,13 @@
 import { useState } from "react";
-import useSignup from "../hooks/useSignup";
 import { Link, useNavigate } from "react-router-dom";
+import { useSignin } from "../hooks/useSignin";
 
-export default function HomePage() {
+export default function Signin() {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
-    age: "",
   });
-  const { signup, loading, error, success } = useSignup();
+  const { signin, loading, error, success } = useSignin();
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,13 +19,10 @@ export default function HomePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const preparedData = {
-      ...formData,
-      age: Number(formData.age), // Convert age from string to number
-    };
+
     // Here you would typically send the data to your backend
     //console.log("Form submitted:", formData);
-    await signup(preparedData);
+    await signin(formData);
     if (success) {
       navigate("/services");
     }
@@ -51,28 +46,9 @@ export default function HomePage() {
         <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
           <div className="p-6">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-              User Sign Up
+              User Signin
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Full Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  placeholder="John Doe"
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
-                    focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
               <div>
                 <label
                   htmlFor="email"
@@ -111,27 +87,7 @@ export default function HomePage() {
                     focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
-              <div>
-                <label
-                  htmlFor="age"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Age
-                </label>
-                <input
-                  id="age"
-                  name="age"
-                  type="number"
-                  value={formData.age}
-                  onChange={handleChange}
-                  required
-                  min="18"
-                  max="100"
-                  placeholder="30"
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
-                    focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
+
               <div>{error && <p className="text-red-500"> error </p>}</div>
               <div>
                 {success && (
@@ -143,18 +99,16 @@ export default function HomePage() {
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                Sign Up
+                Signin
               </button>
             </form>
           </div>
-          <div>
-            <p className="text-center mb-4">
-              Already have an account?{" "}
-              <Link to={"/signin"} className="text-blue-400 underline">
-                Signin
-              </Link>
-            </p>
-          </div>
+          <p className="text-center mb-4">
+            {`Don't have an account?`}{" "}
+            <Link to={"/"} className="text-blue-400 underline">
+              Signup
+            </Link>
+          </p>
         </div>
       </div>
     </div>
