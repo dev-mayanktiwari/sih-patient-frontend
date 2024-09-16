@@ -28,7 +28,7 @@ export default function Signin() {
     }
     // console.log(res);
     // Reset form after submission
-    setFormData({ name: "", email: "", password: "", age: "" });
+    setFormData({ email: "", password: "" });
   };
 
   return (
